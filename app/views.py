@@ -9,6 +9,7 @@ def health():
 
 @app.route('/api/listings', methods=['POST'])
 def postListing():
+    '''Insert the listing, which is passed via JSON, as a row in the listings table'''
     content = request.get_json(silent=True)
     
     if models.Listing.validate(content):
@@ -32,3 +33,8 @@ def postListing():
     else:
         return 'nay'
 
+@app.route('/api/listings', methods=['DELETE'])
+def deleteListings():
+    '''Delete all listings from the listings table'''
+    models.Listing.query.delete()
+    
