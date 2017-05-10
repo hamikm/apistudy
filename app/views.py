@@ -86,3 +86,58 @@ def deleteListings():
         print 'ERROR: ', e 
         return makeError(400, str(e))
 
+@app.route('/api/listings/<idNum>', methods=['GET'])
+def getListing(idNum):
+    '''Return requested listing'''
+    currListing = models.Listing.query.get(idNum)
+    if not currListing:
+        return ('', 204) # no content
+    return jsonify(currListing.toDict())
+
+@app.route('/api/listings/<idNum>', methods=['PUT'])
+def putListing(idNum):
+    '''Replace indicated listing with given listing'''
+    content = request.get_json(silent=True)
+    
+    try:
+        oldListing = models.Listing.query.get(idNum)
+        db.session.delete(oldListing)
+        db.session.commit()
+    except Exception as e:
+        print 'ERROR: ', e
+        return makeError(400, str(e))
+    
+    if models.Listing.validate(content):
+        listing = models.Listing(
+            user=content.get('user'),
+            title=content.get('title'),
+            description=content.get('description'),
+            expiration=models.Listing.parseDate(content.get('expiration')),
+            locationX=content.get('location').get('x'),
+            locationY=content.get('location').get('y')
+        )
+        
+        try:
+            db.session.add(listing)
+            db.session.commit()
+            ret = {'id': listing.id}
+            return jsonify(ret)
+        except Exception as e:
+            print 'ERROR: ', e
+            return makeError(400, str(e))
+        else:
+            return makeError(400, "listing json didn't validate")
+
+@app.route('/api/listings/<idNum>', methods=['DELETE'])
+def deleteListing(idNum):
+    '''Delete indicated listing'''
+    try:
+        oldListing = models.Listing.query.get(idNum)
+        if not oldListing:
+            return ('', 204) # no content
+        db.session.delete(oldListing)
+        db.session.commit()
+        return ('', 204) # no content
+    except Exception as e:
+        print 'ERROR: ', e
+        return makeError(400, str(e))
