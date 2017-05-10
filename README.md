@@ -22,4 +22,4 @@ The file `apistudy/app/views.py` documents the endpoints available in this servi
 * `curl 'localhost:9100/api/listings?length=1&page=2'` retrieves paginated listings
 * `curl -X DELETE 'localhost:9100/api/listings/2'` deletes the given listing
 * `curl -X DELETE 'localhost:9100/api/listings'` deletes all listings
-* `curl -H "Content-Type: application/json" -X PUT -d '{"user": "Bob", "title": "White camper van", "description": "Parked by the bridge near El Cap Meadow", "expiration": "2018-01-01T00:00:00", "location": {"x":  -119.630541, "y": 37.723773}}' localhost:9100/api/listings/1` overwrites the listing with the given id
+* `curl -H "Content-Type: application/json" -X PUT -d '{"user": "Bob", "title": "White camper van", "description": "Parked by the bridge near El Cap Meadow", "expiration": "2018-01-01T00:00:00", "location": {"x":  -119.630541, "y": 37.723773}}' localhost:9100/api/listings/1` overwrites listing 1 with the given listing
