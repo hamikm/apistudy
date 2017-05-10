@@ -29,12 +29,16 @@ def postListing():
             print '============> ', e 
             return 'nay' # TODO return 404
 
-        return 'yayyyy'
+        return 'yay'
     else:
         return 'nay'
 
 @app.route('/api/listings', methods=['DELETE'])
 def deleteListings():
     '''Delete all listings from the listings table'''
-    models.Listing.query.delete()
-    
+    try:
+        models.Listing.query.delete()
+        db.session.commit()
+        return 'yay'
+    except Exception as e:
+        return 'nay'
