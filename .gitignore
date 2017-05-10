@@ -90,3 +90,7 @@ ENV/
 
 # sqlite stuff
 db_repository
+app.db
+
+# emacs garbage
+*~
