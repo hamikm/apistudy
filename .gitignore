@@ -94,3 +94,4 @@ app.db
 
 # emacs garbage
 *~
+\#*
