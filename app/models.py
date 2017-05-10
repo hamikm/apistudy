@@ -58,5 +58,3 @@ class Listing(db.Model):
             and locationX and type(locationX) == float
             and locationY and type(locationY) == float
         )
-
-

@@ -34,7 +34,7 @@ def getListings():
             return makeError(400, "page and length must be nonnegative")
         for idNum in range(length * (page - 1) + 1, length * page + 1):
             currListing = models.Listing.query.get(idNum)
-            if active and datetime.now() > currListing.expiration:
+            if (not currListing) or (active and datetime.now() > currListing.expiration):
                 continue # skip expired listings if we only want active ones
             listings.append(currListing.toDict())
         return jsonify(listings)
@@ -44,19 +44,10 @@ def getListings():
         listings = []
         allListings = models.Listing.query.all()
         for listing in allListings:
-
-            print '===> ', listing
-            print '===> ', type(listing)
-
             if active and datetime.now() > listing.expiration:
                 continue # skip expired listings if we only want active ones
             listings.append(listing.toDict())
         return jsonify(listings)
-
-    print request.args
-    print active, length, page
-
-    return jsonify("")
 
 @app.route('/api/listings', methods=['POST'])
 def postListing():
@@ -90,7 +81,7 @@ def deleteListings():
     try:
         models.Listing.query.delete()
         db.session.commit()
-        return jsonify('success')
+        return ('', 204) # no content
     except Exception as e:
         print 'ERROR: ', e 
         return makeError(400, str(e))
