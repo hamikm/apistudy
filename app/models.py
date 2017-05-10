@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 class Listing(db.Model):
-    '''Define table of listings for SpaceBnB'''
+    '''Define table of listings'''
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String(20))
     title = db.Column(db.String(140))
