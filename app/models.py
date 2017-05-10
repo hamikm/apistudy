@@ -18,6 +18,20 @@ class Listing(db.Model):
         return ('Listing: {} posted {} at ({}, {}). It expires {}'.format(
             self.user, self.title, self.locationX, self.locationY, self.expiration))
 
+    def toDict(self):
+        '''Return self as a jsonifiable dictionary'''
+        return {
+            'id': self.id,
+            'user': self.user,
+            'title': self.title,
+            'description': self.description,
+            'expiration': str(self.expiration),
+            'location': {
+                'x': self.locationX,
+                'y': self.locationY
+            }
+        }
+    
     @classmethod
     def parseDate(cls, dateStr):
         '''Convert string date to datetime object'''
