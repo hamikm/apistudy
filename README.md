@@ -11,6 +11,7 @@ Setup instructions:
 * `pip install sqlalchemy-migrate`
 * `./createdb.py`
 * `./migratedb.py`
+* Change the port in `run.py` and host IP override if necessary.
 * `./run.py`
 
 The file `apistudy/app/views.py` documents the endpoints available in this service. Here are some example invocations:
